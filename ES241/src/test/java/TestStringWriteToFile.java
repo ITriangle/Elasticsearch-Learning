@@ -38,6 +38,8 @@ public class TestStringWriteToFile {
 
     /**
      * 追加写
+     * 1. File
+     * 2. PrintStream
      * @param filePath
      */
     public void WriteStringToFile1(String filePath) {
@@ -55,6 +57,8 @@ public class TestStringWriteToFile {
 
     /**
      * 追加写
+     * 1. FileWriter
+     * 2. BufferedWriter
      * @param filePath
      */
     public void WriteStringToFile2(String filePath) {
@@ -77,6 +81,8 @@ public class TestStringWriteToFile {
 
     /**
      * 追加写
+     * 1. FileWriter
+     * 2. PrintWriter
      * @param filePath
      */
     public void WriteStringToFile3(String filePath) {
@@ -94,6 +100,7 @@ public class TestStringWriteToFile {
 
     /**
      * 追加写
+     * 1. RandomAccessFile
      * @param filePath
      */
     public void WriteStringToFile4(String filePath) {
@@ -110,6 +117,7 @@ public class TestStringWriteToFile {
 
     /**
      * 追加写
+     * 1. FileOutputStream
      * @param filePath
      */
     public void WriteStringToFile5(String filePath) {
