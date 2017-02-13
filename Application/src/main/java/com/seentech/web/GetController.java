@@ -24,11 +24,8 @@ public class GetController {
     }
 
     /**
-     * http://localhost:8080/index/type/id/_search
-     * @return
-     */
-    /**
      * 通过以下链接获取值,并且生成对应的文件
+     * http://localhost:8080/index/type/id/_search
      *
      * @param index
      * @param type
@@ -61,18 +58,6 @@ public class GetController {
     }
 
     /**
-     * 通过以下链接获取值,并生成对应的文件
-     * http://localhost:8080/mac_2020_01_01_01/type/_search
-         {
-             "query": {
-             "term": {
-             "id": "3815027"
-             }
-             }
-         }
-     *
-     */
-    /**
      * http://localhost:8080/mac_2020_01_01_01/type/_search
          {
              "query": {
@@ -95,5 +80,12 @@ public class GetController {
 
         return new ExecRequest().ExecIndexGet(index, type, id);
     }
+
+    @RequestMapping(value = "/{index}/{type}/_scroll")
+    public String scroll(@PathVariable String index, @PathVariable String type, @RequestBody String questionParam){
+
+        return null;
+    }
+
 
 }

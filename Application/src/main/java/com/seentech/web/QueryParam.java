@@ -10,6 +10,7 @@ public class QueryParam {
 
     private QueryBean query;
 
+
     public QueryBean getQuery() {
         return query;
     }

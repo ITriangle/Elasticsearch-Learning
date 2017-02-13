@@ -21,8 +21,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
-import static org.elasticsearch.index.query.QueryBuilders.matchAllQuery;
-import static org.elasticsearch.index.query.QueryBuilders.termQuery;
+import static org.elasticsearch.index.query.QueryBuilders.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -142,15 +141,18 @@ public class ApplicationTests {
             e.printStackTrace();
         }
 
-        QueryBuilder qb = termQuery("user", "kimchy1");
+        QueryBuilder qb = termQuery("area_code", "120105");
 
         QueryBuilder qbAll = matchAllQuery();
 
-        SearchResponse scrollResp = client.prepareSearch("twitter")
+        QueryBuilder qbBool = boolQuery().must(qbAll).must(qb);
+
+        SearchResponse scrollResp = client.prepareSearch("mac_2020_01_01_01")
+                .setTypes("type")
                 .addSort(SortParseElement.DOC_FIELD_NAME, SortOrder.ASC)
                 .setScroll(new TimeValue(60000))
-                .setQuery(qbAll)
-                .setSize(1).execute().actionGet(); //100 hits per shard will be returned for each scroll
+                .setQuery(qbBool)
+                .setSize(10).execute().actionGet(); //100 hits per shard will be returned for each scroll
 
         //Scroll until no hits are returned
         while (true) {
