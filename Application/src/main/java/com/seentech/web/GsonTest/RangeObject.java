@@ -1,4 +1,4 @@
-package GsonTest;
+package com.seentech.web.GsonTest;
 
 /**
  * Created by seentech on 2017/2/13.
@@ -6,9 +6,9 @@ package GsonTest;
 public class RangeObject {
     private String field;
     private String gt;
-    private String gte;
+    private String ge;
     private String lt;
-    private String lte;
+    private String le;
 
     public String getField() {
         return field;
@@ -26,12 +26,12 @@ public class RangeObject {
         this.gt = gt;
     }
 
-    public String getGte() {
-        return gte;
+    public String getGe() {
+        return ge;
     }
 
-    public void setGte(String gte) {
-        this.gte = gte;
+    public void setGe(String ge) {
+        this.ge = ge;
     }
 
     public String getLt() {
@@ -42,12 +42,12 @@ public class RangeObject {
         this.lt = lt;
     }
 
-    public String getLte() {
-        return lte;
+    public String getLe() {
+        return le;
     }
 
-    public void setLte(String lte) {
-        this.lte = lte;
+    public void setLe(String le) {
+        this.le = le;
     }
 
     @Override
@@ -55,9 +55,9 @@ public class RangeObject {
         return "RangeObject{" +
                 "field='" + field + '\'' +
                 ", gt='" + gt + '\'' +
-                ", gte='" + gte + '\'' +
+                ", ge=" + ge +
                 ", lt='" + lt + '\'' +
-                ", lte='" + lte + '\'' +
+                ", le=" + le +
                 '}';
     }
 }

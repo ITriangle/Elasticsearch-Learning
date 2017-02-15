@@ -1,6 +1,4 @@
-package GsonTest;
-
-import java.util.Map;
+package com.seentech.web.GsonTest;
 
 /**
  * Created by seentech on 2017/2/13.

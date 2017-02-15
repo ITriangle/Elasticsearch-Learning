@@ -1,6 +1,9 @@
-package GsonTest;
+package com.seentech;
 
 import com.google.gson.Gson;
+import com.seentech.web.GsonTest.ExpressionObject;
+import com.seentech.web.GsonTest.RangeObject;
+import com.seentech.web.GsonTest.SearchObject;
 import org.junit.Test;
 
 import java.util.Map;

@@ -2,11 +2,13 @@ package com.seentech.service;
 
 import com.seentech.domain.ESClient;
 import com.seentech.domain.GetObject;
-import com.seentech.web.QueryParam;
+import com.seentech.domain.ScrollGet;
+import com.seentech.web.GsonTest.SearchObject;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.List;
 
 /**
  * Created by seentech on 2017/2/10.
@@ -52,10 +54,19 @@ public class ExecRequest {
     }
 
 
-    public String ExecScroll(String index, String type, QueryParam queryParam){
+    public List<String> ExecSearchQeustion(String index, String type, SearchObject searchObject){
 
+        ScrollGet scrollGet = new ScrollGet();
 
-        return null;
+        ESClient esClient = new ESClient();
+
+        List<String> stringList = scrollGet.scrollMacLog(esClient, index, type, searchObject);
+
+        for (String string: stringList) {
+            System.out.println(string);
+        }
+
+        return stringList;
     }
 
 

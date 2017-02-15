@@ -1,4 +1,4 @@
-package GsonTest;
+package com.seentech.web.GsonTest;
 
 import java.util.Map;
 
