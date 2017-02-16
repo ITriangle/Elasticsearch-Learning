@@ -1,6 +1,7 @@
 package com.seentech.domain;
 
 import com.google.gson.Gson;
+import com.seentech.service.FileOperation;
 import com.seentech.web.GsonTest.ExpressionObject;
 import com.seentech.web.GsonTest.RangeObject;
 import com.seentech.web.GsonTest.SearchObject;
@@ -24,6 +25,15 @@ import static org.elasticsearch.index.query.QueryBuilders.*;
  */
 public class ScrollGet {
 
+    /**
+     * 从 ES 中获取数据
+     *
+     * @param esClient
+     * @param index
+     * @param type
+     * @param searchObject
+     * @return
+     */
     public List<String> scrollMacLog(ESClient esClient, String index, String type, SearchObject searchObject) {
 
         TransportClient client = esClient.getClient();
@@ -37,13 +47,9 @@ public class ScrollGet {
         List<String> stringList = new ArrayList<>();
 
 
-
         /**
          * 获取条件
          */
-
-
-
         Gson gson = new Gson();
 
         System.out.println(searchObject.toString());
@@ -80,7 +86,7 @@ public class ScrollGet {
             if (qb != null) {
 
                 boolQueryBuilder = boolQueryBuilder.must(qb);
-                qb = null;
+
             }
 
         }
@@ -89,22 +95,20 @@ public class ScrollGet {
         QueryBuilder qbMust = boolQueryBuilder;
 
         SearchResponse scrollResp = null;
-        if(type != null){
+        if (type != null) {
             scrollResp = client.prepareSearch(index)
                     .setTypes(type)
                     .addSort(SortParseElement.DOC_FIELD_NAME, SortOrder.ASC)
                     .setScroll(new TimeValue(60000))
                     .setQuery(qbMust)
                     .setSize(10).execute().actionGet(); //100 hits per shard will be returned for each scroll
-        }else{
+        } else {
             scrollResp = client.prepareSearch(index)
                     .addSort(SortParseElement.DOC_FIELD_NAME, SortOrder.ASC)
                     .setScroll(new TimeValue(60000))
                     .setQuery(qbMust)
                     .setSize(10).execute().actionGet(); //100 hits per shard will be returned for each scroll
         }
-
-
 
 
         while (true) {
@@ -114,11 +118,14 @@ public class ScrollGet {
             for (SearchHit hit : scrollResp.getHits().getHits()) {
                 //Handle the hit...
 
-                System.out.println("once!");
-                System.out.println(hit.getSourceAsString());
+                /**
+                 * 在这里获取返回的结果
+                 */
+                //直接返回结果
+//                stringList.add(hit.getSourceAsString());
 
-                stringList.add(hit.getSourceAsString());
-
+                //拼装后返回
+                stringList.add(FileOperation.structeBulkStr(hit.getType(), hit.getId(), hit.getSourceAsString()));
 
             }
             scrollResp = client.prepareSearchScroll(scrollResp.getScrollId()).setScroll(new TimeValue(60000)).execute().actionGet();

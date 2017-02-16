@@ -16,7 +16,7 @@ public class GetController {
 
     /**
      * 通过以下链接获取值,并且生成对应的文件
-     * http://localhost:8080/index/type/id/_search
+     * http://localhost:8080/index/type/id/_get
      *
      * @param index
      * @param type

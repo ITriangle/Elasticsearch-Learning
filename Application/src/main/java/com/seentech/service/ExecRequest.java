@@ -5,9 +5,6 @@ import com.seentech.domain.GetObject;
 import com.seentech.domain.ScrollGet;
 import com.seentech.web.GsonTest.SearchObject;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.List;
 
 /**
@@ -39,21 +36,23 @@ public class ExecRequest {
             //拼装写入文件的字符串
             String indexTypeId = "{\"index\": {\"_type\": \""+ type + "\", \"_id\": \""+ id + "\"}}";
 
-            System.out.println(indexTypeId);
-            System.out.println(json);
-
-            StringBuilder stringBuilder = new StringBuilder();
-            stringBuilder.append(indexTypeId + "\n");
-            stringBuilder.append(json + "\n");
+            StringBuilder stringBuilder = new StringBuilder(FileOperation.structeBulkStr( type,  id, json));
 
             String filePath ="./" + index + "_" + type + ".json";
-            writeStringToFile(filePath, stringBuilder);
+            FileOperation.writeStringToFile(filePath, stringBuilder);
 
             return json;
         }
     }
 
 
+    /**
+     * 执行 search controller的业务逻辑
+     * @param index
+     * @param type
+     * @param searchObject
+     * @return
+     */
     public List<String> ExecSearchQeustion(String index, String type, SearchObject searchObject){
 
         ScrollGet scrollGet = new ScrollGet();
@@ -62,36 +61,30 @@ public class ExecRequest {
 
         List<String> stringList = scrollGet.scrollMacLog(esClient, index, type, searchObject);
 
-        for (String string: stringList) {
-            System.out.println(string);
+
+        if(stringList == null){
+            return null;
+        }else {
+            /**
+             * 获取结果,写入到 JSON 文件中
+             */
+
+            String filePath ="./" + index + "_" + type + ".json";
+
+            StringBuilder stringBuilder = new StringBuilder();
+
+            for (String jsonData: stringList) {
+                stringBuilder.append(jsonData);
+            }
+
+            FileOperation.writeStringToFile(filePath, stringBuilder);
         }
 
         return stringList;
     }
 
 
-    /**
-     * 清空文件,并写入字符串到文件
-     * @param filePath
-     * @param stringBuilder
-     */
-    public void writeStringToFile(String filePath, StringBuilder stringBuilder) {
-        FileWriter fileWriter = null;
-        BufferedWriter bw = null;
-
-        try {
-            fileWriter = new FileWriter(filePath);// 向文件中写入刚才读取文件中的内容
-
-            bw = new BufferedWriter(fileWriter);
-            bw.write(stringBuilder.toString());
-
-            bw.close();
-            fileWriter.close();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
 
 
-    }
+
 }

@@ -65,7 +65,7 @@ public class SearchController {
 
 
     /**
-     * 不指名索引
+     * 不指名type,搜索index下所有的type
      * @param index
      * @param jsonParam
      * @return
